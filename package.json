@@ -5,9 +5,9 @@
     "apps/*"
   ],
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
+    "dev:web": "npm --workspace web run dev",
+    "build:web": "npm --workspace web run build",
+    "preview:web": "npm --workspace web run preview"
   },
   "devDependencies": {
     "@playwright/test": "^1.56.1"
