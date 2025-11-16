@@ -34,9 +34,22 @@ jobs:
 
       - name: 🎭 Instalar Playwright Chromium
         run: npx playwright install --with-deps chromium
+
+      - name: 🚀 Start API
+        run: |
+          cd apps/api
+          npm ci
+          nohup npm start &
+        env:
+          PORT: 3001
+
+      - name: ⏳ Esperar API iniciar
+        run: |
+          npx wait-on http://localhost:3001/capture
+
       
       - name: 🔨 Build da extensão
-        run: npm run build:web   # ⬅ AQUI O AJUSTE
+        run: npm run build:web  
       
       - name: 🧪 Executar testes E2E
         run: npm run test:e2e
