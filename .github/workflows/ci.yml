@@ -9,7 +9,7 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-  workflow_dispatch:
+  workflow_dispatch:  # Permite executar manualmente
 
 jobs:
   test-and-build:
@@ -31,27 +31,12 @@ jobs:
       
       - name: 📦 Instalar dependências
         run: npm ci
-
+      
       - name: 🎭 Instalar Playwright Chromium
         run: npx playwright install --with-deps chromium
-
-      - name: 🚀 Start API
-        working-directory: apps/api
-        run: |
-          npm ci
-          nohup npm start > api.log 2>&1 &
-        env:
-          PORT: 3001
-
-
-
-      - name: ⏳ Esperar API iniciar
-        run: |
-          npx wait-on http://localhost:3001/capture
-
       
       - name: 🔨 Build da extensão
-        run: npm run build:web  
+        run: npm run build
       
       - name: 🧪 Executar testes E2E
         run: npm run test:e2e
@@ -68,7 +53,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: focus-timer-extension
-          path: apps/web/dist/extension.zip     # ⬅ AJUSTADO O CAMINHO
+          path: dist/extension.zip
           retention-days: 90
       
       - name: 📊 Upload relatório Playwright (sucesso)
@@ -85,8 +70,8 @@ jobs:
           echo "## 🎯 Resultados dos Testes" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "✅ Build concluído com sucesso!" >> $GITHUB_STEP_SUMMARY
-          echo "📦 Extensão empacotada em: \`apps/web/dist/extension.zip\`" >> $GITHUB_STEP_SUMMARY
-
+          echo "📦 Extensão empacotada em: \`dist/extension.zip\`" >> $GITHUB_STEP_SUMMARY
+          
   create-release:
     needs: test-and-build
     runs-on: ubuntu-latest
