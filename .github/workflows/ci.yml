@@ -36,12 +36,14 @@ jobs:
         run: npx playwright install --with-deps chromium
 
       - name: 🚀 Start API
+        working-directory: apps/api
         run: |
-          cd apps/api
           npm ci
-          nohup npm start &
+          nohup npm start > api.log 2>&1 &
         env:
           PORT: 3001
+
+
 
       - name: ⏳ Esperar API iniciar
         run: |
