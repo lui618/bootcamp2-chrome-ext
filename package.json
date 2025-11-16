@@ -7,7 +7,8 @@
   "scripts": {
     "dev:web": "npm --workspace web run dev",
     "build:web": "npm --workspace web run build",
-    "preview:web": "npm --workspace web run preview"
+    "preview:web": "npm --workspace web run preview",
+    "test:e2e": "playwright test"
   },
   "devDependencies": {
     "@playwright/test": "^1.56.1"
